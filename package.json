@@ -1,0 +1,317 @@
+{
+  "name": "sfdc-qcp-vscode-extension",
+  "displayName": "Salesforce CPQ - Quote Calculator Plugin",
+  "description": "Work with the Salesforce CPQ Quote Calculator Plugin using an IDE driven workflow.",
+  "publisher": "paustint",
+  "version": "1.0.4",
+  "author": {
+    "name": "Austin Turner",
+    "url": "https://github.com/paustint"
+  },
+  "homepage": "https://github.com/paustint/sfdc-qcp-vscode-extension/blob/master/README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/paustint/sfdc-qcp-vscode-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/paustint/sfdc-qcp-vscode-extension/issues"
+  },
+  "license": "BSD-3-Clause",
+  "engines": {
+    "vscode": "^1.29.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "Salesforce",
+    "Salesforce CPQ",
+    "CPQ",
+    "QCP",
+    "Quote Calculator Plugin"
+  ],
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#00A1DF",
+    "theme": "dark"
+  },
+  "activationEvents": [
+    "workspaceContains:.qcp/qcp-config.json",
+    "onCommand:extension.testCredentials",
+    "onCommand:extension.init",
+    "onCommand:extension.initExampleFiles",
+    "onCommand:extension.pullAll",
+    "onCommand:extension.pullActive",
+    "onCommand:extension.push",
+    "onCommand:extension.pushActive",
+    "onCommand:extension.backup",
+    "onCommand:extension.diff",
+    "onCommand:extension.diffActive",
+    "onCommand:extension.viewTranspiledCodeFromSalesforce",
+    "onCommand:extension.viewActiveFileInSalesforce",
+    "extension.fetchRecordData"
+  ],
+  "main": "./dist/extension",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "Salesforce CPQ - QCP configuration",
+      "properties": {
+        "sfdcQcp.pushOnSave": {
+          "type": "boolean",
+          "default": false,
+          "description": "When a file is saved, show prompt asking if file should be pushed to Salesforce."
+        },
+        "sfdcQcp.saveLog": {
+          "type": "boolean",
+          "default": true,
+          "description": "Determines if a log file should be saved each time a record from Salesforce is pushed or pulled."
+        },
+        "sfdcQcp.maxLogEntries": {
+          "type": "integer",
+          "default": 150,
+          "description": "Determines the maximum number of entries in the log file.",
+          "minimum": 0
+        },
+        "sfdcQcp.prettier": {
+          "type": "boolean",
+          "default": true,
+          "description": "Determines if a .prettierrc file will be created on project initialization."
+        },
+        "sfdcQcp.prettierConfig": {
+          "type": "object",
+          "default": {
+            "printWidth": 140,
+            "parser": "typescript",
+            "semi": true,
+            "tabWidth": 2,
+            "useTabs": false,
+            "singleQuote": true,
+            "trailingComma": "all",
+            "bracketSpacing": true,
+            "arrowParens": "avoid",
+            "insertPragma": false
+          },
+          "markdownDescription": "Default [prettier configuration](https://prettier.io/docs/en/configuration.html) object. You must edit this configuration in JSON mode."
+        }
+      }
+    },
+    "configurationDefaults": {},
+    "commands": [
+      {
+        "command": "extension.testCredentials",
+        "title": "Validate org credentials are valid",
+        "category": "SFDC QCP",
+        "icon": {
+          "light": "images/cloud-download.svg",
+          "dark": "images/cloud-download_inverse.svg"
+        }
+      },
+      {
+        "command": "extension.init",
+        "title": "Initialize Project",
+        "category": "SFDC QCP"
+      },
+      {
+        "command": "extension.initExampleFiles",
+        "title": "Create example QCP files in your project",
+        "category": "SFDC QCP"
+      },
+      {
+        "command": "extension.pullAll",
+        "title": "Pull QCP records from Salesforce",
+        "category": "SFDC QCP",
+        "icon": {
+          "light": "images/cloud-download.svg",
+          "dark": "images/cloud-download_inverse.svg"
+        }
+      },
+      {
+        "command": "extension.pullActive",
+        "title": "Pull active file from Salesforce",
+        "category": "SFDC QCP",
+        "icon": {
+          "light": "images/cloud-download.svg",
+          "dark": "images/cloud-download_inverse.svg"
+        }
+      },
+      {
+        "command": "extension.push",
+        "title": "Push QCP files to Salesforce",
+        "category": "SFDC QCP",
+        "icon": {
+          "light": "images/cloud-upload.svg",
+          "dark": "images/cloud-upload_inverse.svg"
+        }
+      },
+      {
+        "command": "extension.pushActive",
+        "title": "Push active file to Salesforce",
+        "category": "SFDC QCP",
+        "icon": {
+          "light": "images/cloud-upload.svg",
+          "dark": "images/cloud-upload_inverse.svg"
+        }
+      },
+      {
+        "command": "extension.backup",
+        "title": "Backup local or remote files",
+        "category": "SFDC QCP",
+        "icons": {
+          "light": "images/desktop-download.svg",
+          "dark": "images/desktop-download_inverse.svg"
+        }
+      },
+      {
+        "command": "extension.diff",
+        "title": "Compare records and show differences",
+        "category": "SFDC QCP",
+        "icon": {
+          "light": "images/diff.svg",
+          "dark": "images/diff_inverse.svg"
+        }
+      },
+      {
+        "command": "extension.diffActive",
+        "title": "Compare active file with the Salesforce record",
+        "category": "SFDC QCP",
+        "icon": {
+          "light": "images/diff.svg",
+          "dark": "images/diff_inverse.svg"
+        }
+      },
+      {
+        "command": "extension.viewTranspiledCodeFromSalesforce",
+        "title": "View transpiled code for active file",
+        "category": "SFDC QCP",
+        "icon": {
+          "light": "images/file-binary.svg",
+          "dark": "images/file-binary_inverse.svg"
+        }
+      },
+      {
+        "command": "extension.viewActiveFileInSalesforce",
+        "title": "View QCP record in Salesforce",
+        "category": "SFDC QCP",
+        "icon": {
+          "light": "images/link-external.svg",
+          "dark": "images/link-external_inverse.svg"
+        }
+      },
+      {
+        "command": "extension.fetchRecordData",
+        "title": "Get QuoteModel record from Salesforce and save locally",
+        "category": "SFDC QCP",
+        "icon": {
+          "light": "images/file-binary.svg",
+          "dark": "images/file-binary_inverse.svg"
+        }
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "extension.pullActive",
+          "when": "sfdcQcp:projectActive && hasActiveQcpFile",
+          "group": "navigation@1"
+        },
+        {
+          "command": "extension.pushActive",
+          "when": "sfdcQcp:projectActive && hasActiveQcpFile",
+          "group": "navigation@2"
+        },
+        {
+          "command": "extension.diffActive",
+          "when": "sfdcQcp:projectActive && hasActiveQcpFile",
+          "group": "navigation@3"
+        },
+        {
+          "command": "extension.viewActiveFileInSalesforce",
+          "when": "sfdcQcp:projectActive && hasActiveQcpFile",
+          "group": "navigation@4"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "extension.testCredentials",
+          "when": "sfdcQcp:projectActive"
+        },
+        {
+          "command": "extension.initExampleFiles",
+          "when": "sfdcQcp:projectActive"
+        },
+        {
+          "command": "extension.pullAll",
+          "when": "sfdcQcp:projectActive"
+        },
+        {
+          "command": "extension.pullActive",
+          "when": "sfdcQcp:projectActive && hasActiveQcpFile"
+        },
+        {
+          "command": "extension.push",
+          "when": "sfdcQcp:projectActive"
+        },
+        {
+          "command": "extension.pushActive",
+          "when": "sfdcQcp:projectActive && hasActiveQcpFile"
+        },
+        {
+          "command": "extension.backup",
+          "when": "sfdcQcp:projectActive"
+        },
+        {
+          "command": "extension.diff",
+          "when": "sfdcQcp:projectActive"
+        },
+        {
+          "command": "extension.diffActive",
+          "when": "sfdcQcp:projectActive && hasActiveQcpFile"
+        },
+        {
+          "command": "extension.viewTranspiledCodeFromSalesforce",
+          "when": "sfdcQcp:projectActive"
+        },
+        {
+          "command": "extension.viewActiveFileInSalesforce",
+          "when": "sfdcQcp:projectActive && hasActiveQcpFile"
+        },
+        {
+          "command": "extension.fetchRecordData",
+          "when": "sfdcQcp:projectActive"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "webpack --mode production",
+    "compile": "webpack --mode none",
+    "watch": "webpack --mode none --watch",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test-compile": "tsc -p ./",
+    "test": "npm run compile && node ./node_modules/vscode/bin/test",
+    "postshrinkwrap": "replace --silent 'http://' 'https://' ./package-lock.json"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^5.0.4",
+    "@types/jsforce": "^1.9.2",
+    "@types/lodash": "^4.14.119",
+    "@types/mocha": "^2.2.42",
+    "@types/node": "^8.10.25",
+    "@types/sanitize-filename": "^1.1.28",
+    "replace": "^1.1.0",
+    "ts-loader": "^6.0.0",
+    "tslint": "^5.8.0",
+    "typescript": "^3.1.4",
+    "vscode": "^1.1.33",
+    "webpack": "^4.31.0",
+    "webpack-cli": "^3.3.2"
+  },
+  "dependencies": {
+    "ajv": "^6.10.0",
+    "axios": "^0.19.0",
+    "fs-extra": "^7.0.1",
+    "jsforce": "^1.9.1",
+    "sanitize-filename": "^1.6.1"
+  }
+}
